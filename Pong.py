@@ -37,9 +37,13 @@ def spawn_ball(direction):
 def new_game():
     global paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel  # these are numbers
     global player1_score, player2_score # these are ints
-    spawn_ball(RIGHT)
-    player1_score = 0
-    player2_score = 0
+    spawn_ball(random.choice([LEFT, RIGHT]))
+    paddle1_pos = HEIGHT/2
+    paddle2_pos = HEIGHT/2
+    paddle1_vel = 0
+    paddle2_vel = 0
+    player1_score = int(0)
+    player2_score = int(0)
 
 def draw(canvas):
     global score1, score2, paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel, ball_pos, ball_vel, player1_score, player2_score
@@ -53,7 +57,7 @@ def draw(canvas):
     # collision with horizontal walls
     if ball_pos[1] <= BALL_RADIUS:
         ball_vel[1] = -ball_vel[1]
-    elif HEIGHT - ball_pos[1] <= BALL_RADIUS:
+    elif ball_pos[1] >= HEIGHT - 1 - BALL_RADIUS:
         ball_vel[1] = -ball_vel[1]
     
     # left gutter test
@@ -80,9 +84,9 @@ def draw(canvas):
     ball_pos[1] += ball_vel[1]
     
     # update paddle's vertical position, keep paddle on the screen
-    if paddle1_pos + paddle1_vel >= 0 + HALF_PAD_HEIGHT and paddle1_pos + paddle1_vel <= HEIGHT - HALF_PAD_HEIGHT:
+    if paddle1_pos + paddle1_vel >= HALF_PAD_HEIGHT and paddle1_pos + paddle1_vel <= HEIGHT - HALF_PAD_HEIGHT:
         paddle1_pos += paddle1_vel
-    if paddle2_pos + paddle2_vel >= 0 + HALF_PAD_HEIGHT and paddle2_pos + paddle2_vel <= HEIGHT - HALF_PAD_HEIGHT:
+    if paddle2_pos + paddle2_vel >= HALF_PAD_HEIGHT and paddle2_pos + paddle2_vel <= HEIGHT - HALF_PAD_HEIGHT:
         paddle2_pos += paddle2_vel
     #uncomment the line below and comment the two lines above to play with a computer
         #paddle2_pos = ball_pos[1]
@@ -103,9 +107,9 @@ def keydown(key):
     elif key == simplegui.KEY_MAP["up"]:
         paddle2_vel -= acc
 
-    if key == simplegui.KEY_MAP["q"]:
+    if key == simplegui.KEY_MAP["s"]:
         paddle1_vel += acc
-    elif key == simplegui.KEY_MAP["o"]:
+    elif key == simplegui.KEY_MAP["w"]:
         paddle1_vel -= acc    
         
 def keyup(key):
@@ -115,9 +119,9 @@ def keyup(key):
     elif key == simplegui.KEY_MAP["up"]:
         paddle2_vel = 0
 
-    if key == simplegui.KEY_MAP["q"]:
+    if key == simplegui.KEY_MAP["s"]:
         paddle1_vel = 0
-    elif key == simplegui.KEY_MAP["o"]:
+    elif key == simplegui.KEY_MAP["w"]:
         paddle1_vel = 0
 
 # create frame
